@@ -15,6 +15,9 @@ on:
       - "package-lock.json"
       - ".github/workflows/build-windows.yml"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
@@ -35,3 +38,11 @@ jobs:
         with:
           name: Photobooth-Camo-Windows
           path: dist/*.exe
+      - name: Créer le téléchargement public
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: derniere-version
+          name: Photobooth Camo pour Windows
+          body: "Téléchargez le fichier .exe ci-dessous puis double-cliquez dessus pour installer Photobooth Camo."
+          make_latest: true
+          files: dist/*.exe
