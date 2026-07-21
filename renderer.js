@@ -8,10 +8,6 @@ const flash = document.querySelector('#flash');
 const statusDot = document.querySelector('#statusDot');
 const statusTitle = document.querySelector('#statusTitle');
 const statusText = document.querySelector('#statusText');
-const directoryPath = document.querySelector('#directoryPath');
-const lastPhotoCard = document.querySelector('#lastPhotoCard');
-const lastPhoto = document.querySelector('#lastPhoto');
-const lastPhotoName = document.querySelector('#lastPhotoName');
 
 let activeStream;
 let isCapturing = false;
@@ -117,11 +113,8 @@ async function takePhoto() {
     flash.classList.remove('active');
     void flash.offsetWidth;
     flash.classList.add('active');
-    const result = await appBridge.savePhoto(dataUrl);
-    lastPhoto.src = dataUrl;
-    lastPhotoName.textContent = result.filename;
-    lastPhotoCard.hidden = false;
-    setStatus(true, 'Photo enregistrée !', result.filename);
+    await appBridge.savePhoto(dataUrl);
+    setStatus(true, 'Prêt !', 'Vous pouvez prendre une nouvelle photo');
   } catch (error) {
     setStatus(false, 'Erreur d’enregistrement', error.message);
   } finally {
@@ -132,10 +125,6 @@ async function takePhoto() {
 
 cameraSelect.addEventListener('change', () => startCamera(cameraSelect.value));
 captureButton.addEventListener('click', takePhoto);
-document.querySelector('#openFolderButton').addEventListener('click', () => appBridge.openDirectory());
-document.querySelector('#chooseFolderButton').addEventListener('click', async () => {
-  directoryPath.textContent = await appBridge.chooseDirectory();
-});
 document.querySelector('#fullscreenButton').addEventListener('click', () => appBridge.toggleFullscreen());
 document.addEventListener('keydown', (event) => {
   const shutterKeys = new Set([
@@ -161,10 +150,5 @@ navigator.mediaDevices.addEventListener('devicechange', () => listCameras(camera
 if (isDesktopApp) window.photobooth.onRemoteShutter(takePhoto);
 
 (async () => {
-  directoryPath.textContent = await appBridge.getDirectory();
-  if (!isDesktopApp) {
-    document.querySelector('#chooseFolderButton').hidden = true;
-    document.querySelector('#openFolderButton').textContent = 'Retrouver les photos';
-  }
   await startCamera();
 })();
