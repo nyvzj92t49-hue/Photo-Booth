@@ -15,6 +15,31 @@ const lastPhotoName = document.querySelector('#lastPhotoName');
 
 let activeStream;
 let isCapturing = false;
+const isDesktopApp = Boolean(window.photobooth);
+const appBridge = window.photobooth || {
+  getDirectory: async () => 'Dossier Téléchargements de Windows',
+  chooseDirectory: async () => 'Dossier Téléchargements de Windows',
+  openDirectory: async () => alert('Cliquez sur l’icône des téléchargements du navigateur pour retrouver les photos.'),
+  savePhoto: async (dataUrl) => {
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `photobooth-${stamp}.jpg`;
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    return { filename, fullPath: filename };
+  },
+  toggleFullscreen: async () => {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+      return false;
+    }
+    await document.documentElement.requestFullscreen();
+    return true;
+  }
+};
 
 function setStatus(ready, title, text) {
   statusDot.classList.toggle('ready', ready);
@@ -92,7 +117,7 @@ async function takePhoto() {
     flash.classList.remove('active');
     void flash.offsetWidth;
     flash.classList.add('active');
-    const result = await window.photobooth.savePhoto(dataUrl);
+    const result = await appBridge.savePhoto(dataUrl);
     lastPhoto.src = dataUrl;
     lastPhotoName.textContent = result.filename;
     lastPhotoCard.hidden = false;
@@ -107,18 +132,22 @@ async function takePhoto() {
 
 cameraSelect.addEventListener('change', () => startCamera(cameraSelect.value));
 captureButton.addEventListener('click', takePhoto);
-document.querySelector('#openFolderButton').addEventListener('click', () => window.photobooth.openDirectory());
+document.querySelector('#openFolderButton').addEventListener('click', () => appBridge.openDirectory());
 document.querySelector('#chooseFolderButton').addEventListener('click', async () => {
-  directoryPath.textContent = await window.photobooth.chooseDirectory();
+  directoryPath.textContent = await appBridge.chooseDirectory();
 });
-document.querySelector('#fullscreenButton').addEventListener('click', () => window.photobooth.toggleFullscreen());
+document.querySelector('#fullscreenButton').addEventListener('click', () => appBridge.toggleFullscreen());
 document.addEventListener('keydown', (event) => {
   if ((event.code === 'Space' || event.code === 'Enter') && event.target.tagName !== 'SELECT') takePhoto();
-  if (event.code === 'F11') window.photobooth.toggleFullscreen();
+  if (event.code === 'F11') appBridge.toggleFullscreen();
 });
 navigator.mediaDevices.addEventListener('devicechange', () => listCameras(cameraSelect.value));
 
 (async () => {
-  directoryPath.textContent = await window.photobooth.getDirectory();
+  directoryPath.textContent = await appBridge.getDirectory();
+  if (!isDesktopApp) {
+    document.querySelector('#chooseFolderButton').hidden = true;
+    document.querySelector('#openFolderButton').textContent = 'Retrouver les photos';
+  }
   await startCamera();
 })();
