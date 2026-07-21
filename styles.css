@@ -73,3 +73,108 @@ video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
   .stage { grid-template-columns: minmax(0, 1fr) 270px; }
   .camera-picker select { width: 210px; }
 }
+
+
+/* Palette du mariage : ivoire, sauge, pêche et doré */
+:root {
+  color-scheme: light;
+  --cream: #fffaf5;
+  --ink: #25231f;
+  --coral: #e99b72;
+  --yellow: #b8892d;
+  --purple: #809b69;
+  --sage: #809b69;
+  --sage-dark: #516c45;
+  --peach: #f2b38f;
+  --gold: #b8892d;
+  --paper: #fffaf7;
+}
+
+body {
+  background:
+    radial-gradient(circle at 0 0, #e8b18e55 0, transparent 25%),
+    radial-gradient(circle at 100% 100%, #8eaa7855 0, transparent 28%),
+    linear-gradient(135deg, #fffdf9, #f8f1e9);
+  color: var(--ink);
+}
+
+.eyebrow {
+  color: var(--gold);
+}
+
+h1 {
+  color: #1f211d;
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+
+.camera-picker {
+  color: var(--sage-dark);
+}
+
+select,
+.icon-button {
+  border-color: #b9c8ad;
+  background: #fffdf9;
+  color: #30372d;
+  box-shadow: 0 4px 14px #6f805719;
+}
+
+.viewer {
+  border-color: #d2ad62;
+  background: #161813;
+  box-shadow: 0 22px 55px #68725938;
+}
+
+.camera-message {
+  background: #f8f4ed;
+  color: #33382f;
+}
+
+.camera-message span {
+  color: #718066;
+}
+
+.status-card {
+  border-color: #cbd6c2;
+  background: #fffdf9e8;
+  box-shadow: 0 8px 24px #6f80571c;
+  color: #30362d;
+}
+
+.status-card p {
+  color: #74816b;
+}
+
+.status-dot {
+  background: #c8a966;
+  box-shadow: 0 0 0 5px #b8892d18;
+}
+
+.status-dot.ready {
+  background: var(--sage);
+}
+
+.capture-button {
+  background: linear-gradient(145deg, #f2b38f, #df8f68);
+  color: #fffdf9;
+  box-shadow: 0 10px 0 #b96f51, 0 20px 42px #8b654138;
+}
+
+.capture-button:active:not(:disabled) {
+  box-shadow: 0 4px 0 #b96f51;
+}
+
+.lens {
+  border-color: #fffaf5;
+  box-shadow: inset 0 0 0 7px #d88963;
+}
+
+.countdown {
+  color: #fffaf5;
+  text-shadow: 0 8px 30px #2d3428;
+}
+
+.flash {
+  background: #fffdf8;
+}
