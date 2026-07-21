@@ -67,8 +67,8 @@ async function startCamera(deviceId) {
     const constraints = {
       audio: false,
       video: deviceId
-        ? { deviceId: { exact: deviceId }, width: { ideal: 1920 }, height: { ideal: 1080 } }
-        : { width: { ideal: 1920 }, height: { ideal: 1080 } }
+        ? { deviceId: { exact: deviceId }, width: { ideal: 3840 }, height: { ideal: 2160 } }
+        : { width: { ideal: 3840 }, height: { ideal: 2160 } }
     };
     activeStream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = activeStream;
@@ -109,7 +109,7 @@ async function takePhoto() {
     context.translate(canvas.width, 0);
     context.scale(-1, 1);
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.94);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.98);
     flash.classList.remove('active');
     void flash.offsetWidth;
     flash.classList.add('active');
