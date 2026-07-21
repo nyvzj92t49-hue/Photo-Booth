@@ -98,7 +98,7 @@ async function takePhoto() {
   isCapturing = true;
   captureButton.disabled = true;
   try {
-    for (const value of Array.from({ length: 15 }, (_, index) => String(15 - index))) {
+    for (const value of Array.from({ length: 10 }, (_, index) => String(10 - index))) {
       countdown.textContent = value;
       await delay(1000);
     }
