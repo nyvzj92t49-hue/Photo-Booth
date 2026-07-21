@@ -178,3 +178,18 @@ select,
 .flash {
   background: #fffdf8;
 }
+
+
+/* Mode invités : toute la surface est réservée à la caméra */
+.camera-picker,
+.panel {
+  display: none;
+}
+
+.stage {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.viewer {
+  width: 100%;
+}
