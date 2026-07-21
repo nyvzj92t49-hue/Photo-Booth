@@ -98,9 +98,9 @@ async function takePhoto() {
   isCapturing = true;
   captureButton.disabled = true;
   try {
-    for (const value of ['3', '2', '1']) {
+    for (const value of Array.from({ length: 15 }, (_, index) => String(15 - index))) {
       countdown.textContent = value;
-      await delay(900);
+      await delay(1000);
     }
     countdown.textContent = '';
     canvas.width = video.videoWidth;
