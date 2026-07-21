@@ -138,7 +138,23 @@ document.querySelector('#chooseFolderButton').addEventListener('click', async ()
 });
 document.querySelector('#fullscreenButton').addEventListener('click', () => appBridge.toggleFullscreen());
 document.addEventListener('keydown', (event) => {
-  if ((event.code === 'Space' || event.code === 'Enter') && event.target.tagName !== 'SELECT') takePhoto();
+  const shutterKeys = new Set([
+    'Space',
+    'Enter',
+    'NumpadEnter',
+    'ArrowUp',
+    'ArrowDown',
+    'AudioVolumeUp',
+    'AudioVolumeDown',
+    'VolumeUp',
+    'VolumeDown',
+    'MediaPlayPause',
+    'F8'
+  ]);
+  if (shutterKeys.has(event.code) && event.target.tagName !== 'SELECT') {
+    event.preventDefault();
+    takePhoto();
+  }
   if (event.code === 'F11') appBridge.toggleFullscreen();
 });
 navigator.mediaDevices.addEventListener('devicechange', () => listCameras(cameraSelect.value));
