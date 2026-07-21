@@ -1,0 +1,37 @@
+name: Construire l'application Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "main.cjs"
+      - "preload.cjs"
+      - "index.html"
+      - "styles.css"
+      - "renderer.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/build-windows.yml"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Récupérer le projet
+        uses: actions/checkout@v4
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Installer les dépendances
+        run: npm ci
+      - name: Créer l'installateur
+        run: npm run dist
+      - name: Publier l'installateur
+        uses: actions/upload-artifact@v4
+        with:
+          name: Photobooth-Camo-Windows
+          path: dist/*.exe
