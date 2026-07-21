@@ -158,6 +158,7 @@ document.addEventListener('keydown', (event) => {
   if (event.code === 'F11') appBridge.toggleFullscreen();
 });
 navigator.mediaDevices.addEventListener('devicechange', () => listCameras(cameraSelect.value));
+if (isDesktopApp) window.photobooth.onRemoteShutter(takePhoto);
 
 (async () => {
   directoryPath.textContent = await appBridge.getDirectory();
