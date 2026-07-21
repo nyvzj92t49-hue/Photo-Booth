@@ -1,0 +1,39 @@
+{
+  "name": "photobooth-camo",
+  "version": "1.0.0",
+  "description": "Un photobooth Windows simple, compatible avec la caméra virtuelle Camo.",
+  "main": "main.cjs",
+  "author": "Romone",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis",
+    "dist:dir": "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^37.2.3",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "fr.romone.photobooth",
+    "productName": "Photobooth Camo",
+    "asar": true,
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "index.html",
+      "styles.css",
+      "renderer.js",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
