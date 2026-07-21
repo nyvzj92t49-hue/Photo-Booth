@@ -31,6 +31,12 @@ function createWindow() {
     }
   });
 
+  const appSession = mainWindow.webContents.session;
+  appSession.setPermissionCheckHandler((_webContents, permission) => permission === 'media');
+  appSession.setPermissionRequestHandler((_webContents, permission, callback) => {
+    callback(permission === 'media');
+  });
+
   mainWindow.loadFile('index.html');
 }
 
