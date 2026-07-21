@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, dialog, globalShortcut, ipcMain, shell } = require('electron');
 const path = require('path');
 const fs = require('fs/promises');
 
@@ -37,9 +37,18 @@ function createWindow() {
 app.whenReady().then(async () => {
   await ensurePhotoDirectory();
   createWindow();
+  globalShortcut.register('VolumeUp', () => {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('remote:shutter');
+    }
+  });
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+});
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
 });
 
 app.on('window-all-closed', () => {
